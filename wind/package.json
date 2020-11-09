@@ -3,13 +3,19 @@
 	"version": "0.1.0",
 	"description": "",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
 		"start": "node src/index.js",
+		"dev": "nodemon src/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Peter Panduro <peter@kodifiera.se> (https://kodifiera.se)",
 	"license": "MIT",
 	"dependencies": {
-		"express": "^4.17.1"
+		"express": "^4.17.1",
+		"node-cache": "^5.1.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
 	}
 }
