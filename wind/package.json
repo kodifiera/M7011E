@@ -1,7 +1,8 @@
 {
 	"name": "wind",
 	"version": "0.1.0",
-	"description": "",
+	"description": "A mockup REST service for getting wind speeds",
+	"repository": "https://github.com/kodifiera/M7011E/tree/main/wind",
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
