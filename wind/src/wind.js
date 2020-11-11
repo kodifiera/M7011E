@@ -30,6 +30,11 @@ const gaussian = (mean, stddev) => {
  * in return is generated from a gaussian distribution.
  */
 export default () => {
+	// See if there is a current cached wind speed (saved for 10 sec)
+	let current = cache.get("current");
+	if (current) {
+		return current;
+	}
 	// See if there is a daily average in cache (saved for 24 hours)
 	let dayAvg = cache.get("dayAvg");
 	if (!dayAvg) {
@@ -39,6 +44,7 @@ export default () => {
 		cache.set("dayAvg", dayAvg, 24 /*hours*/ * 60 /*min*/ * 60 /*sec*/);
 	}
 	const dayDist = gaussian(dayAvg, dayAvg / 5);
-	const current = dayDist();
+	current = dayDist();
+	cache.set("current", current, 10 /*sec*/);
 	return Math.abs(current);
 };
