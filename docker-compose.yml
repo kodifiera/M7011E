@@ -17,8 +17,6 @@ services:
       - ./docker-volumes/mongo:/data/db
     expose:
       - 27017
-    ports:
-      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: username
       MONGO_INITDB_ROOT_PASSWORD: password

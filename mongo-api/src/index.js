@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import mongodb from "mongodb";
 dotenv.config();
 
-const uri = `mongodb://${process.env.CONFIG_MONGODB_ROOT_USERNAME}:${process.env.CONFIG_MONGODB_ROOT_PASSWORD}@localhost:27017/?poolSize=20&w=majority`;
+const uri = `mongodb://${process.env.CONFIG_MONGODB_ROOT_USERNAME}:${process.env.CONFIG_MONGODB_ROOT_PASSWORD}@mongo:27017/?poolSize=20&w=majority`;
 const MongoClient = mongodb.MongoClient;
 const mongoClient = new MongoClient(uri, {
 	useNewUrlParser: true,
@@ -47,14 +47,15 @@ app.get("/add", async (req, res) => {
 });
 
 app.listen(port, async () => {
-	console.log(`Example app listening at http://localhost:${port}`);
+	console.info(`Example app listening at http://localhost:${port}`);
 	try {
 		await mongoClient.connect();
 		console.info("Database client established");
 		await mongoClient.db("test").command({ ping: 1 });
-		console.log("Database connected");
+		console.info("Database connected");
 	} catch (error) {
 		console.error(error);
-		client.close();
+		mongoClient.close();
+		return;
 	}
 });
