@@ -4,7 +4,8 @@
 	"description": "Project in course M7011E - Dynamic web systems @ Luleå university of technology",
 	"scripts": {
 		"deploy": "docker-compose up -d",
-		"redeploy": "docker-compose up -d --build"
+		"redeploy": "docker-compose up -d --build",
+		"down": "docker-compose down"
 	},
 	"repository": {
 		"type": "git",
