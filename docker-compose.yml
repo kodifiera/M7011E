@@ -2,8 +2,34 @@ version: "3.8"
 
 services:
   wind:
+    container_name: wind
     image: wind
     build: wind/.
-    container_name: wind
+    restart: unless-stopped
     ports:
       - 4001:8080
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: unless-stopped
+    volumes:
+      - ./docker-volumes/mongo:/data/db
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  mongo-api:
+    container_name: mongo-api
+    image: mongo-api
+    build: mongo-api/.
+    restart: unless-stopped
+    ports:
+      - 4000:8080
+    environment:
+      CONFIG_MONGODB_ROOT_USERNAME: username
+      CONFIG_MONGODB_ROOT_PASSWORD: password
