@@ -14,19 +14,23 @@ app.get("/", async(req, res) => {
 
 
 const getTemp = async () => {
-    let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/22.14/lat/65.58/data.json';
-    var data = cache.get(url);
-    if (!data) {
-        const res = await axios.get(url)
-        if(res.status == 200) {
-            data = res.data.timeSeries[0].parameters[1].values[0];
-            cache.set(url, data);
-        }
-        else {
-            res.status(500);
-            return("Bad request: " + res.status);
-        }
-    }        
-    return(data);
+    try {
+        let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/22.14/lat/65.58/data.json';
+        var data = cache.get(url);
+        if (!data) {
+            const res = await axios.get(url)
+            if(res.status == 200) {
+                data = res.data.timeSeries[0].parameters[11].values[0];
+                cache.set(url, data);
+            }
+            else {
+                res.status(500);
+                return("Bad request: " + res.status);
+            }
+        }        
+        return(data);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
