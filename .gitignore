@@ -1,3 +1,6 @@
+# Custom
+docker-volumes/
+
 # Logs
 logs
 *.log

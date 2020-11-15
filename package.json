@@ -1,0 +1,44 @@
+{
+	"name": "m7011e",
+	"version": "0.1.0",
+	"description": "Project in course M7011E - Dynamic web systems @ Luleå university of technology",
+	"scripts": {
+		"deploy": "docker-compose up -d",
+		"redeploy": "docker-compose up -d --build",
+		"down": "docker-compose down"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kodifiera/M7011E.git"
+	},
+	"keywords": [],
+	"author": "Peter Panduro <peter@kodifiera.se> (https://kodifiera.se)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kodifiera/M7011E/issues"
+	},
+	"homepage": "https://github.com/kodifiera/M7011E#readme",
+	"devDependencies": {
+		"eslint": "^7.13.0",
+		"prettier": "^2.1.2",
+		"eslint-config-prettier": "^6.15.0",
+		"eslint-plugin-prettier": "^3.1.4",
+		"husky": "^4.3.0",
+		"lint-staged": "^10.5.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.+(js)": [
+			"eslint --fix",
+			"git add"
+		],
+		"*.+(json|css|md)": [
+			"prettier --write",
+			"git add"
+		]
+	}
+}
