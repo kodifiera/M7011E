@@ -33,3 +33,11 @@ services:
     environment:
       CONFIG_MONGODB_ROOT_USERNAME: username
       CONFIG_MONGODB_ROOT_PASSWORD: password
+
+  temperature:
+    container_name: temperature
+    image: temp
+    build: temp/.
+    restart: unless-stopped
+    ports: 
+      - 5000:3000
