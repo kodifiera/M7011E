@@ -1,0 +1,20 @@
+{
+	"name": "el-price",
+	"version": "0.1.0",
+	"description": "",
+	"main": "./src/index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon"
+	},
+	"keywords": [],
+	"author": "Peter Panduro <peter@kodifiera.se> (https://kodifiera.se)",
+	"license": "MIT",
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
+}
