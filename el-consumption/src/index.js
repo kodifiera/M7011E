@@ -7,14 +7,13 @@ const app = express();
 app.listen(PORT, () => console.log (`Server started on port ${PORT}`));
 
 app.get("/", async(req, res) => {
-    const temp = await getTemp();
-    consumption();
-    res.send("" + temp)
+    const consum = await degreeConsumption();
+    res.send("" + consum)
 })
 
 const getTemp = async () => {
     try {
-        const res = await axios.get('http://localhost:3000/');
+        const res = await axios.get('http://localhost:5000/');
         if(res.status == 200) {
             temp = res;
             return temp.data;
@@ -30,11 +29,44 @@ const getTemp = async () => {
 
 }
 
-const consumption = async () => {
-    const temp = await getTemp();
-    const baseLine = 8; // floor(5000kWh - 2000kWh / 365 ) kWh
+const heatingConsumption = () => {
     var date = new Date();
     var hour = date.getHours();
-    console.log(hour);
+    var consum = 0;
+    //normal distribution of 27kWh per day, distributed in kWh per hour
+    if (hour >= 4 && hour < 8 ) {
+        consum = 0.06605;
+    }
+    if((hour >= 2 && hour < 4) || (hour >= 8 && hour < 10 )) {
+        consum = 0.22275;
+    }
+    if((hour >= 0 && hour < 2) || (hour >= 10 && hour < 12 )) {
+        consum = 0.59535;
+    }
+    if((hour >= 22 && hour != 0) || (hour >= 12 && hour < 14 )) {
+        consum = 1.2393;
+    }
+    if((hour >= 20 && hour < 22) || (hour >= 14 && hour < 16)) {
+        consum = 2.02365;
+    }
+    if((hour >= 16 && hour < 20)) {
+        consum = 2.58525;
+    }
+    return consum;
+}
+
+const degreeConsumption = async () => {
+    const temp = await getTemp();
+
+    const wattPerDegree = 0.085; // 15kWh / 365 / 24 = 1.7, 5 percent per delta degree => 0.05*1.7 = 0.085
+    const zeroConsumtion = 25;
+    var consumtion = 0;
+    if (temp < zeroConsumtion) {
+        consumtion = wattPerDegree * (zeroConsumtion - temp);
+    }
+    const heatingCon = heatingConsumption();
+    consumtion += heatingCon;
+    return consumtion;
 
 }
+
