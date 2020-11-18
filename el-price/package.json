@@ -1,12 +1,12 @@
 {
 	"name": "el-price",
 	"version": "0.1.0",
-	"description": "",
-	"main": "./src/index.js",
+	"description": "Get electricity price",
+	"repository": "https://github.com/kodifiera/M7011E/tree/main/el-price",
+	"main": "/src/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node ./src/",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node src",
 		"dev": "nodemon"
 	},
 	"keywords": [],

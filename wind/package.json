@@ -3,12 +3,11 @@
 	"version": "0.2.0",
 	"description": "A mockup REST service for getting wind speeds",
 	"repository": "https://github.com/kodifiera/M7011E/tree/main/wind",
-	"main": "index.js",
+	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node src/index.js",
-		"dev": "nodemon src/index.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node src",
+		"dev": "nodemon"
 	},
 	"author": "Peter Panduro <peter@kodifiera.se> (https://kodifiera.se)",
 	"license": "MIT",
