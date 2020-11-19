@@ -36,8 +36,8 @@ services:
 
   temperature:
     container_name: temperature
-    image: temp
-    build: temp/.
+    image: temperature
+    build: temperature/.
     restart: unless-stopped
     ports: 
       - 5000:3000
