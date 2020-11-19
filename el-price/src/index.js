@@ -1,12 +1,13 @@
 import express from "express";
-import price from "./price.js";
+import fetchPrice from "./price.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+	const price = await fetchPrice();
 	res.status(200);
-	res.send("" + price());
+	res.json(price);
 });
 
 app.listen(port, () => {

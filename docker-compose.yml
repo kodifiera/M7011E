@@ -45,6 +45,7 @@ services:
             - 80
         ports:
             - 4002:80
+
     wind:
         container_name: wind
         image: wind
