@@ -61,7 +61,7 @@ app.get("/price", async (req, res) => {
 		const url = "http://" + (localhost ? "localhost:4005" : "el-price");
 		const response = await axios.get(url);
 		res.status(200);
-		res.send("" + response.data);
+		res.json(response.data);
 	} catch (error) {
 		console.error(error);
 	}

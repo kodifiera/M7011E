@@ -7,7 +7,7 @@ services:
         build: api/.
         restart: unless-stopped
         ports:
-            - 4000:8080
+            - 4000:80
 
     mongo:
         container_name: mongo

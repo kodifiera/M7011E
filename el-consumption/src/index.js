@@ -4,6 +4,7 @@ var axios = require("axios");
 const app = express();
 
 const localhost = process.env.NODE_ENV === "production" ? false : true;
+const url = "http://" + (localhost ? "localhost:4000" : "api");
 app.listen(PORT, () => console.info(`Server started on port ${PORT}`));
 
 app.get("/", async (req, res) => {
@@ -13,8 +14,7 @@ app.get("/", async (req, res) => {
 
 const getTemp = async () => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4002" : "temperature");
-		const res = await axios.get(url);
+		const res = await axios.get(url + "/temp");
 		if (res.status == 200) {
 			return res.data;
 		} else {
