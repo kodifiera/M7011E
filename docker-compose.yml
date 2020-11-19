@@ -37,9 +37,40 @@ services:
             CONFIG_MONGODB_ROOT_PASSWORD: password
 
     temperature:
-      container_name: temperature
-      image: temperature
-      build: temperature/.
-      restart: unless-stopped
-      ports: 
-        - 5000:3000
+        container_name: temperature
+        image: temperature
+        build: temperature/.
+        restart: unless-stopped
+        expose:
+            - 80
+        ports:
+            - 4002:80
+    wind:
+        container_name: wind
+        image: wind
+        build: wind/.
+        restart: unless-stopped
+        expose:
+            - 80
+        ports:
+            - 4003:80
+
+    el-consumption:
+        container_name: el-consumption
+        image: el-consumption
+        build: el-consumption/.
+        restart: unless-stopped
+        expose:
+            - 80
+        ports:
+            - 4004:80
+
+    el-price:
+        container_name: el-price
+        image: el-price
+        build: el-price/.
+        restart: unless-stopped
+        expose:
+            - 80
+        ports:
+            - 4005:80
