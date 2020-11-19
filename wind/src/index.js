@@ -2,7 +2,7 @@ import express from "express";
 import wind from "./wind.js";
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
 	res.status(200);
@@ -10,5 +10,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
+	console.info(`Example app listening at http://localhost:${port}`);
 });

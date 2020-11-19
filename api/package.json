@@ -1,8 +1,8 @@
 {
-	"name": "mongo-api",
+	"name": "api",
 	"version": "0.1.0",
-	"description": "The API for communicating with mongo database.",
-	"repository": "https://github.com/kodifiera/M7011E/tree/main/mongo-api",
+	"description": "The API for communicating with the M7011E services.",
+	"repository": "https://github.com/kodifiera/M7011E/tree/main/api",
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
@@ -12,9 +12,8 @@
 	"author": "Peter Panduro <peter@kodifiera.se> (https://kodifiera.se)",
 	"license": "MIT",
 	"dependencies": {
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"mongodb": "^3.6.3"
+		"axios": "^0.21.0",
+		"express": "^4.17.1"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.6"

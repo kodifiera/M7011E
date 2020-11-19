@@ -17,7 +17,6 @@ RUN npm install --production
 COPY ./src ./src
 
 # Expose port 8080
-EXPOSE 80
-ENV PORT 80
+EXPOSE 8080
 ENV NODE_ENV production
 CMD [ "npm", "start" ]
