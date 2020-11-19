@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+    api:
+        container_name: api
+        image: api
+        build: api/.
+        restart: unless-stopped
+        ports:
+            - 4000:8080
+
     mongo:
         container_name: mongo
         image: mongo
@@ -18,8 +26,10 @@ services:
         image: mongo-api
         build: mongo-api/.
         restart: unless-stopped
+        expose:
+            - 80
         ports:
-            - 4000:8080
+            - 4001:80
         depends_on:
             - mongo
         environment:
@@ -31,28 +41,36 @@ services:
         image: temperature
         build: temperature/.
         restart: unless-stopped
+        expose:
+            - 80
         ports:
-            - 4001:3000
+            - 4002:80
     wind:
         container_name: wind
         image: wind
         build: wind/.
         restart: unless-stopped
+        expose:
+            - 80
         ports:
-            - 4002:8080
+            - 4003:80
 
     el-consumption:
         container_name: el-consumption
         image: el-consumption
         build: el-consumption/.
         restart: unless-stopped
+        expose:
+            - 80
         ports:
-            - 4003:3001
+            - 4004:80
 
     el-price:
         container_name: el-price
         image: el-price
         build: el-price/.
         restart: unless-stopped
+        expose:
+            - 80
         ports:
-            - 4004:3001
+            - 4005:80
