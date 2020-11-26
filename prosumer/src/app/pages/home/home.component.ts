@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SimulatorInfoComponent } from '../../components/simulator-info/simulator-info.component';
+
 
 @Component({
   selector: 'app-home',
