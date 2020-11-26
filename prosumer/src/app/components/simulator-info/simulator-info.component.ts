@@ -7,20 +7,26 @@ import { HttpService } from '../../services/http.service';
   styleUrls: ['./simulator-info.component.css']
 })
 export class SimulatorInfoComponent implements OnInit {
-  consumption:Object = "";
-  temperature:Object = "";
-  wind:Object = "";
-  price:Object = "";
+
+  temperature: Object = Object;
+  price: Object = Object;
 
   constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
-    this.httpService.getConsumption().subscribe(data => {
-      this.consumption = data;
-    })
+    this.getAllData();
   }
 
-  
+  getAllData(): void{
+    
+    this.httpService.getTemperature().subscribe(data => {
+      this.temperature = data;
+    })
+    
+    this.httpService.getPrice().subscribe(data => {
+      this.price = data;
+    })
+  }
 
   
 

@@ -17,7 +17,7 @@ export class HttpService {
 
   //get temperature
   getTemperature() {
-    return this.http.get(`${this.url}/temperature` )
+    return this.http.get(`${this.url}/temp` )
   }
 
   //get price
