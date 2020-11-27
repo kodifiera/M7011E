@@ -1,8 +1,10 @@
 # Electricity Price
 
+Get the current electricity. Is based on current average consumption and wind producing electricity.
+
 ## Usage
 
-From service defined in docker-compose, call `http://price` using fetch, axios or something. Otherwise `http://<url>/<exposed_port>`.
+From service defined in docker-compose, call `http://el-price` using fetch, axios or something. Otherwise `http://<url>/<exposed_port>`.
 
 `<exposed_port>` is by default `8080` using
 

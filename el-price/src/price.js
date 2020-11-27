@@ -21,7 +21,6 @@ export default async () => {
  * @param {Number<float>} consumption Average consuming effect [W]
  * @returns {Number<float>} The price in SEK
  */
-
 export const calculatePrice = (generation, consumption) => {
 	const consumptionRelation = consumption === 0 ? 0 : (consumption - generation) / consumption;
 	const price = Math.pow(1.1, 1.4 * consumptionRelation) - 0.5;

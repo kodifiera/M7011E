@@ -1,8 +1,8 @@
 const express = require("express");
-const PORT = process.env.PORT || 3001;
-var axios = require("axios");
+const axios = require("axios");
 const app = express();
 
+const PORT = process.env.PORT || 8080;
 const localhost = process.env.NODE_ENV === "production" ? false : true;
 const url = "http://" + (localhost ? "localhost:4000" : "api");
 app.listen(PORT, () => console.info(`Server started on port ${PORT}`));
