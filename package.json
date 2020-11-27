@@ -4,7 +4,8 @@
 	"description": "Project in course M7011E - Dynamic web systems @ Luleå university of technology",
 	"type": "module",
 	"scripts": {
-		"test": "jest",
+		"install-all": "npx npm-recursive-install",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
 		"deploy": "docker-compose up -d",
 		"redeploy": "docker-compose up -d --build",
 		"down": "docker-compose down"
@@ -29,7 +30,8 @@
 		"husky": "^4.3.0",
 		"jest": "^26.6.3",
 		"lint-staged": "^10.5.1",
-		"prettier": "^2.1.2"
+		"prettier": "^2.1.2",
+		"recursive-install": "^1.4.0"
 	},
 	"husky": {
 		"hooks": {
@@ -43,5 +45,6 @@
 		"*.+(json|css|md)": [
 			"prettier --write"
 		]
-	}
+	},
+	"dependencies": {}
 }

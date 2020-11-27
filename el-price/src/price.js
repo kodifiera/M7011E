@@ -11,19 +11,19 @@ export default async () => {
 	return { price, avg_consumption, avg_generation };
 };
 
-const calculatePrice = (generation, consumption) => {
+export const calculatePrice = (generation, consumption) => {
 	const consumptionRelation = consumption === 0 ? 0 : (consumption - generation) / consumption;
 	const price = Math.pow(1.1, 1.4 * consumptionRelation) - 0.5;
-	return price;
+	return Number.parseFloat(price.toFixed(2));
 };
 
-const windGenerateEffect = (wind) => {
+export const windGenerateEffect = (wind) => {
 	// https://www.jamtkraft.se/om-jamtkraft/var-fornybara-produktion/vindkraft/hur-fungerar-vindkraft/
 	// Vindkraftverk fungerar från 4 till 25 m/s. Linjär 100W per sekundmeter upp till och med 14 sekundmeter.
 	if (wind < 4 || wind > 25) return 0;
 	wind = wind > 14 ? 14 : wind;
 	const effect = wind * 100;
-	return effect;
+	return Math.round(effect);
 };
 
 const getWind = async () => {
