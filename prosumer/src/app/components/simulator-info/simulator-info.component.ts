@@ -25,6 +25,7 @@ export class SimulatorInfoComponent implements OnInit {
     
     this.httpService.getPrice().subscribe(data => {
       this.price = data;
+      console.log(this.price)
     })
   }
 
