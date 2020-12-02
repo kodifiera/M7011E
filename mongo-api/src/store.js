@@ -14,7 +14,6 @@ export default new mongodb.MongoClient(uri, {
 export const connect = async (mongoClient) => {
 	try {
 		await mongoClient.connect();
-		console.info("Database client established");
 		await mongoClient.db("m7011e").command({ ping: 1 });
 		console.info("Database connected");
 	} catch (error) {
