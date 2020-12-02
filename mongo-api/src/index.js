@@ -1,36 +1,56 @@
-import express from "express";
+// Third party plugins
 import bodyParser from "body-parser";
-import Users from "./users.js";
-import store, { connect } from "./store.js";
 import dotenv from "dotenv";
-dotenv.config();
+import express from "express";
+import expressPino from "express-pino-logger";
+import pino from "pino";
+// Custom dependencies
+import Store from "./store.js";
+import Users from "./users.js";
 
+// Config the .env
+dotenv.config();
+// Define the Express server and port.
 const app = express();
 const port = process.env.PORT || 8080;
+// Configure the logger
+const logger = pino({ level: process.env.LOG_LEVEL || "info", prettyPrint: { colorize: true } });
+const expressLogger = expressPino({ logger });
+// Initialize the databse store object. Connect before use (in app.listen()).
+const store = Store();
 
+/**
+ * Express middlewares
+ */
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-	console.info({
-		"Requested URI Path": req.url,
-		Datetime: new Date(),
-		IP: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
-	});
-	next();
-});
+app.use(expressLogger);
 
-app.use("/users", Users(store));
+/**
+ * Use API sub-endpoints
+ */
+app.use("/users", Users(store, logger));
 
+/**
+ * Test to connect to the api endpoint
+ */
 app.get("/", async (req, res) => {
 	try {
 		res.json("ok");
-		res.status(200);
 	} catch (error) {
-		res.send(error);
-		res.status(500);
+		logger.error(error);
+		res.status(500).send(error);
 	}
 });
 
+/**
+ * Start the express server
+ */
 app.listen(port, async () => {
-	console.info(`Example app listening at http://localhost:${port}`);
-	connect(store);
+	logger.info(`Example app listening at http://localhost:${port}`);
+	try {
+		await store.connectStore();
+		logger.info("Database connected");
+	} catch (error) {
+		logger.error(error);
+	}
 });

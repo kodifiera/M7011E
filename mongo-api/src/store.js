@@ -6,19 +6,20 @@ const host = process.env.NODE_ENV === "production" ? "mongo" : "localhost";
 const port = process.env.PORT || 27017;
 const uri = `mongodb://${process.env.CONFIG_MONGODB_ROOT_USERNAME}:${process.env.CONFIG_MONGODB_ROOT_PASSWORD}@${host}:${port}/?poolSize=20&w=majority`;
 
-export default new mongodb.MongoClient(uri, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+export default () => {
+	const mongoClient = new mongodb.MongoClient(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	});
 
-export const connect = async (mongoClient) => {
-	try {
+	mongoClient.connectStore = async () => {
 		await mongoClient.connect();
 		await mongoClient.db("m7011e").command({ ping: 1 });
-		console.info("Database connected");
-	} catch (error) {
-		console.error(error);
-		mongoClient.close();
-		return;
-	}
+	};
+
+	return mongoClient;
+};
+
+export const getIdObject = (id) => {
+	return mongodb.ObjectId(id);
 };
