@@ -7,13 +7,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SimulatorInfoComponent } from './components/simulator-info/simulator-info.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    SimulatorInfoComponent
+    SimulatorInfoComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
