@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const host = process.env.NODE_ENV === "production" ? "mongo" : "localhost";
-const port = process.env.PORT || 27017;
+const port = process.env.MONGO_PORT || 27017;
 const uri = `mongodb://${process.env.CONFIG_MONGODB_ROOT_USERNAME}:${process.env.CONFIG_MONGODB_ROOT_PASSWORD}@${host}:${port}/?poolSize=20&w=majority`;
 
 export default () => {
