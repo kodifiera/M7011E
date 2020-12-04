@@ -10,11 +10,6 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  //get consumption
-  getConsumption() {
-    return this.http.get(`${this.url}/consumption` )
-  }
-
   //get temperature
   getTemperature() {
     return this.http.get(`${this.url}/temp` )
@@ -23,11 +18,6 @@ export class HttpService {
   //get price
   getPrice() {
     return this.http.get(`${this.url}/price` )
-  }
-
-  //get wind
-  getWind() {
-    return this.http.get(`${this.url}/wind` )
   }
 
 

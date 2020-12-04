@@ -12,6 +12,7 @@ export class SimulatorInfoComponent implements OnInit {
   price: any;
   consumption: any;
   generation: any;
+  currency: any;
 
   constructor(private httpService: HttpService) {}
 
@@ -23,12 +24,15 @@ export class SimulatorInfoComponent implements OnInit {
     
     this.httpService.getTemperature().subscribe((data: any)  => {
       this.temperature = data;
+      console.log(data)
     })
     
     this.httpService.getPrice().subscribe((data: any) => {
       this.price = data.price;
       this.consumption = data.avg_consumption;
       this.generation = data.avg_generation;
+      this.currency = data.price_currency;
+      console.log(data)
     })
   }
 
