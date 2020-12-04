@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SimulatorInfoComponent } from './components/simulator-info/simulator-info.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule } from '@angular/forms';
+import { SimulatorComponent } from './pages/simulator/simulator.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     HomeComponent,
     SimulatorInfoComponent,
-    RegisterComponent
+    RegisterComponent,
+    SimulatorComponent
   ],
   imports: [
     BrowserModule,
