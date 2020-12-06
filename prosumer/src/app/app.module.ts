@@ -10,7 +10,10 @@ import { SimulatorInfoComponent } from './components/simulator-info/simulator-in
 import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { SimulatorComponent } from './pages/simulator/simulator.component';
-
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { LoginComponent } from './components/login/login.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
+ 
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { SimulatorComponent } from './pages/simulator/simulator.component';
     HomeComponent,
     SimulatorInfoComponent,
     RegisterComponent,
-    SimulatorComponent
+    SimulatorComponent,
+    LoginComponent,
+    NewUserComponent
+
   ],
   imports: [
     BrowserModule,
@@ -27,7 +33,9 @@ import { SimulatorComponent } from './pages/simulator/simulator.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
