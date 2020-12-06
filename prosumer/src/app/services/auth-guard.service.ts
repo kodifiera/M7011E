@@ -13,10 +13,12 @@ export class AuthGuardService implements CanActivate {
     private authService: AuthService) { }
 
   canActivate() {
+    console.log("nejiw");
     if(!this.authService.isTokenExpired()) {
       return true;
     }
+    console.log("is: " + this.authService.isTokenExpired());
     this.router.navigate(['/register']);
-    return false;
+      return false;
   }
 }

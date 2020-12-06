@@ -31,7 +31,8 @@ import { NewUserComponent } from './components/new-user/new-user.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [
     

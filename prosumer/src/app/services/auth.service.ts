@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 export const tokenKey = 'auth-token';
 export const userKey = 'auth-user'
@@ -8,6 +10,7 @@ const baseUrl = 'http://localhost:4001/';
 const httpOpt = {
   headers: new HttpHeaders({'Content-Type' : 'application/json'})
 };
+const jwtHelper = new JwtHelperService();
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ const httpOpt = {
 
 export class AuthService {
 
-  constructor(private http: HttpClient  ) { }
+  constructor(private http: HttpClient ) { }
 
   login(credentials:any): Observable<any> {
     console.log("login");
@@ -51,11 +54,20 @@ export class AuthService {
   public getUser(): any {
     return JSON.parse(localStorage.getItem(userKey) || '{}');
   }
-  isTokenExpired(token?: string): boolean{
-    if(!token) token = this.getToken();
-    if(!token) return true;
-    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+
+  isTokenExpired(): boolean{
+    let token = localStorage.getItem(tokenKey) || '{}';
+    //if(!token) return true;
+    console.log(token);
+    if (jwtHelper.isTokenExpired(token)) {
+      return false;
+    }
+    return true;
+  }
+
+  logout(): void {
+    console.log("clear");
+    localStorage.clear();
   }
 
   

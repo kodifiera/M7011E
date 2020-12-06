@@ -10,7 +10,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {
     path: 'simulator', 
-    redirectTo: 'register',
+    component: SimulatorComponent,
     pathMatch: 'full',
     canActivate: [AuthGuardService]
   }
