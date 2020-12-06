@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export const tokenKey = 'auth-token';
-const baseUrl = 'localhost:4001/';
+const baseUrl = 'http://localhost:4001/';
 const httpOpt = {
   headers: new HttpHeaders({'Content-Type' : 'application/json'})
 };
@@ -17,14 +17,14 @@ export class AuthService {
   constructor(private http: HttpClient  ) { }
 
   login(credentials:any): Observable<any> {
-    return this.http.post(baseUrl+'users/register', {
+    return this.http.post(baseUrl+'users/login', {
       email: credentials.email,
       password: credentials.password
     }, httpOpt);
   }
 
   register(user: any): Observable<any> {
-    return this.http.post(baseUrl+'users/login', {
+    return this.http.post(baseUrl+'users/register', {
       email: user.email,
       password: user.password
     }, httpOpt);

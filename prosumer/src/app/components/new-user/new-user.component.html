@@ -1,13 +1,25 @@
 <h4>Register new account</h4>
 <hr>
-<form action="/action_page.php">
+<form *ngIf="!isSuccessfull"
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate>
     <div class="form-group">
         <label for="uname">Select a username:</label>
-        <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+        <input type="email" class="form-control" name="email"
+        [(ngModel)]="form.email"
+        required
+        email
+        #email="ngModel" required>
     </div>
     <div class="form-group">
         <label for="pwd">Select a password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+        <input type="password" class="form-control" name="password"
+        [(ngModel)]="form.password"
+        required
+        minlength="6"
+        #password="ngModel" required>
     </div>
     <div class="form-group form-check">
         <label class="form-check-label">          
@@ -17,5 +29,10 @@
         </label>
     </div>
     <button type="submit" class="btn btn-primary">Register account</button>
-            
+    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        Signup failed!<br />{{ errorMessage }}
+    </div>
 </form>
+<div class="alert alert-success" *ngIf="isSuccessfull">
+    Your registration is successful!
+ </div>
