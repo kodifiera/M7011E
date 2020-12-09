@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
-    console.log("gettoken: " +this.auth.getToken())
+    //console.log("gettoken: " +this.auth.getToken())
     if(this.auth.getToken()!= '{}') {
       this.isLoggedIn = true;
     }  }

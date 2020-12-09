@@ -18,11 +18,11 @@ const jwtHelper = new JwtHelperService();
 
 export class AuthService {
 
+  validToken: any;
+
   constructor(private http: HttpClient ) { }
 
   login(credentials:any): Observable<any> {
-    console.log("login");
-    console.log(credentials)
     return this.http.post(baseUrl+'users/login', {
       email: credentials.email,
       password: credentials.password,
@@ -37,32 +37,32 @@ export class AuthService {
   }
   
   getToken(): string {
+    //jwtHelper.decodeToken(localStorage.getItem(tokenKey) || '{}')
     return localStorage.getItem(tokenKey) || '{}';
   }
 
   setToken(token: string): void {
+    
     localStorage.removeItem(tokenKey);
     localStorage.setItem(tokenKey, token);
+    console.log(localStorage.getItem(tokenKey))
   }
 
   saveUser(user: any): void {
     localStorage.removeItem(userKey);
     localStorage.setItem(userKey, JSON.stringify(user));
-    console.log ("save user: " + user);
   }
 
   public getUser(): any {
     return JSON.parse(localStorage.getItem(userKey) || '{}');
   }
 
-  isTokenExpired(): boolean{
-    let token = localStorage.getItem(tokenKey) || '{}';
-    //if(!token) return true;
-    console.log(token);
-    if (jwtHelper.isTokenExpired(token)) {
-      return false;
-    }
-    return true;
+
+  isTokenExpired() {
+    console.log("verify");
+    return this.http.get(baseUrl + 'users/verify_auth_token');
+    //return this.http.get(baseUrl + '')
+
   }
 
   logout(): void {

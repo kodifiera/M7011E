@@ -25,7 +25,7 @@ export class SimulatorInfoComponent implements OnInit {
     this.httpService.getTemperature().subscribe((data: any)  => {
       this.temperature = data;
       console.log(data)
-    })
+    }, error => console.log('ooops', error));
     
     this.httpService.getPrice().subscribe((data: any) => {
       this.price = data.price;

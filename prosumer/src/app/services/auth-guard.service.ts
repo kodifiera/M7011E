@@ -7,18 +7,27 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
+  validToken: any;
 
   constructor(
     private router: Router,
     private authService: AuthService) { }
 
   canActivate() {
-    console.log("nejiw");
-    if(!this.authService.isTokenExpired()) {
+    this.checkToken();
+    
+    if(this.validToken == 'true') {
       return true;
     }
-    console.log("is: " + this.authService.isTokenExpired());
     this.router.navigate(['/register']);
-      return false;
+    return false;
+  }
+
+  checkToken() {
+    this.authService.isTokenExpired().subscribe(( data:any) => {
+      this.validToken = JSON.stringify(data)
+    }, error => console.log('Not authorized', error));
+    
   }
 }
+  

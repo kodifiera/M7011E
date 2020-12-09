@@ -12,21 +12,23 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
+  email = '';
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    console.log("gettoken: " +this.authService.getToken())
     if(this.authService.getToken()!= '{}') {
+      console.log(this.authService.getUser())
       this.isLoggedIn = true;
     }
-    console.log("is logged in: " + this.isLoggedIn);
   }
 
   onSubmit(): void {
+    console.log("hej")
     this.authService.login(this.form).subscribe(
       data=> {
-        this.authService.setToken(data.accessToken);
+        this.authService.setToken(data.access_token);
+        console.log("set token")
         this.authService.saveUser(data);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
