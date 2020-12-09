@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {map} from 'rxjs/operators';
+
+
 
 
 export const tokenKey = 'auth-token';
@@ -10,7 +13,6 @@ const baseUrl = 'http://localhost:4001/';
 const httpOpt = {
   headers: new HttpHeaders({'Content-Type' : 'application/json'})
 };
-const jwtHelper = new JwtHelperService();
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +20,12 @@ const jwtHelper = new JwtHelperService();
 
 export class AuthService {
 
-  validToken: any;
+  validToken = 'false';
 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
   login(credentials:any): Observable<any> {
+    console.log("hrj")
     return this.http.post(baseUrl+'users/login', {
       email: credentials.email,
       password: credentials.password,
@@ -37,15 +40,13 @@ export class AuthService {
   }
   
   getToken(): string {
-    //jwtHelper.decodeToken(localStorage.getItem(tokenKey) || '{}')
     return localStorage.getItem(tokenKey) || '{}';
   }
 
   setToken(token: string): void {
-    
     localStorage.removeItem(tokenKey);
     localStorage.setItem(tokenKey, token);
-    console.log(localStorage.getItem(tokenKey))
+
   }
 
   saveUser(user: any): void {
@@ -57,12 +58,17 @@ export class AuthService {
     return JSON.parse(localStorage.getItem(userKey) || '{}');
   }
 
-  isTokenExpired() {
-    return this.http.get(baseUrl + 'users/verify_auth_token');
+  isTokenExp(): boolean {
+    const token = localStorage.getItem(tokenKey)
+    if (token != null && token!= '{}') {
+      if(!this.jwtHelper.isTokenExpired(token)) {
+        return false;
+      }
+    } 
+    return true;
   }
-
+  
   logout(): void {
-    console.log("clear");
     localStorage.clear();
   }
 }

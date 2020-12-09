@@ -13,6 +13,11 @@ import { SimulatorComponent } from './pages/simulator/simulator.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LoginComponent } from './components/login/login.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem("auth-token");
+}
  
 
 @NgModule({
@@ -32,6 +37,12 @@ import { NewUserComponent } from './components/new-user/new-user.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+       tokenGetter: tokenGetter,
+      allowedDomains: ["http://localhost:4001", "http://localhost:4000"]
+      },
+    }),
     
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
