@@ -57,20 +57,13 @@ export class AuthService {
     return JSON.parse(localStorage.getItem(userKey) || '{}');
   }
 
-
   isTokenExpired() {
-    console.log("verify");
     return this.http.get(baseUrl + 'users/verify_auth_token');
-    //return this.http.get(baseUrl + '')
-
   }
 
   logout(): void {
     console.log("clear");
     localStorage.clear();
   }
-
-  
-
 }
 

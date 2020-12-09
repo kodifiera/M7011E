@@ -18,17 +18,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.authService.getToken()!= '{}') {
-      console.log(this.authService.getUser())
       this.isLoggedIn = true;
     }
   }
 
   onSubmit(): void {
-    console.log("hej")
     this.authService.login(this.form).subscribe(
       data=> {
         this.authService.setToken(data.access_token);
-        console.log("set token")
         this.authService.saveUser(data);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
