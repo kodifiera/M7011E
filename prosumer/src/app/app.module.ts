@@ -14,6 +14,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LoginComponent } from './components/login/login.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 export function tokenGetter() {
   return localStorage.getItem("auth-token");
@@ -29,7 +30,8 @@ export function tokenGetter() {
     RegisterComponent,
     SimulatorComponent,
     LoginComponent,
-    NewUserComponent
+    NewUserComponent,
+    ImageUploadComponent
 
   ],
   imports: [
