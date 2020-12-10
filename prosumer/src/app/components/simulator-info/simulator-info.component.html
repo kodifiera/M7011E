@@ -2,9 +2,10 @@
 <hr>
 <ul class="list-group list-group-flush">
     <li class="list-group-item ">Current temperature: {{this.temperature}} &#8451;</li>
-    <li class="list-group-item">Current price: {{this.price}} {{this.currency}}</li>
+    <li class="list-group-item">Current electricity price: {{this.price}} {{this.currency}}</li>
     <li class="list-group-item">Current consumption: {{this.consumption}}</li>
     <li class="list-group-item">Current production: {{this.generation}}</li>
     <li class="list-group-item">Current wind: {{this.wind}}</li>
+    <li class="list-group-item">Current net production: {{this.generation - this.consumption}}</li>
     <hr>
   </ul>
