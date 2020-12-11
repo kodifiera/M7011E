@@ -4,7 +4,7 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 const localhost = process.env.NODE_ENV === "production" ? false : true;
-const url = "http://" + (localhost ? "localhost:4000" : "api");
+const url = "http://" + (localhost ? "localhost:4000" : "simulator-api");
 app.listen(PORT, () => console.info(`Server started on port ${PORT}`));
 
 app.get("/", async (req, res) => {

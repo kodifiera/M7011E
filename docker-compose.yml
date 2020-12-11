@@ -1,14 +1,6 @@
 version: "3.8"
 
 services:
-    api:
-        container_name: api
-        image: api
-        build: api/.
-        restart: unless-stopped
-        ports:
-            - 4000:80
-
     mongo:
         container_name: mongo
         image: mongo
@@ -22,6 +14,14 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: username
             MONGO_INITDB_ROOT_PASSWORD: password
+
+    simulator-api:
+        container_name: simulator-api
+        image: simulator-api
+        build: simulator/simulator-api/.
+        restart: unless-stopped
+        ports:
+            - 4000:80
 
     mongo-api:
         container_name: mongo-api
@@ -41,7 +41,7 @@ services:
     temperature:
         container_name: temperature
         image: temperature
-        build: temperature/.
+        build: simulator/temperature/.
         restart: unless-stopped
         expose:
             - 80
@@ -51,7 +51,7 @@ services:
     wind:
         container_name: wind
         image: wind
-        build: wind/.
+        build: simulator/wind/.
         restart: unless-stopped
         expose:
             - 80
@@ -61,7 +61,7 @@ services:
     el-consumption:
         container_name: el-consumption
         image: el-consumption
-        build: el-consumption/.
+        build: simulator/el-consumption/.
         restart: unless-stopped
         expose:
             - 80
@@ -71,7 +71,7 @@ services:
     el-price:
         container_name: el-price
         image: el-price
-        build: el-price/.
+        build: simulator/el-price/.
         restart: unless-stopped
         expose:
             - 80

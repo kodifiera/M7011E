@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const localhost = process.env.NODE_ENV === "production" ? false : true;
-const url = "http://" + (localhost ? "localhost:4000" : "api");
+const url = "http://" + (localhost ? "localhost:4000" : "simulator-api");
 
 /**
  * Makes a request to services to get average wind speed and consumption to

@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import express from "express";
 import expressPino from "express-pino-logger";
 import pino from "pino";
+import cors from "cors";
+import helmet from "helmet";
 // Custom dependencies
 import Store from "./store.js";
 import Users from "./users.js";
@@ -23,6 +25,8 @@ const store = Store();
  * Express middlewares
  */
 app.use(bodyParser.json());
+app.use(cors());
+app.use(helmet());
 app.use(expressLogger);
 
 app.use((req, res, next) => {
