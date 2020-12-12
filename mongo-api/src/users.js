@@ -49,7 +49,7 @@ export default (dbStore, logger) => {
 					statusCode: 500,
 				};
 			// Upon success, return JWT as access token
-			res.json({ access_token: jwt });
+			res.json({ access_token: jwt, user_id: user._id });
 		} catch (error) {
 			logger.error(error);
 			res.status(error.statusCode || 500).json({ error });
