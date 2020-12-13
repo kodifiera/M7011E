@@ -20,7 +20,9 @@
 		"express-pino-logger": "^5.0.0",
 		"helmet": "^4.2.0",
 		"jsonwebtoken": "^8.5.1",
+		"minio": "^7.0.17",
 		"mongodb": "^3.6.3",
+		"multer": "^1.4.2",
 		"pino": "^6.7.0",
 		"pino-pretty": "^4.3.0",
 		"uuid": "^8.3.1"

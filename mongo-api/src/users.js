@@ -1,7 +1,23 @@
 import bcrypt from "bcrypt";
 import express from "express";
+import multer from "multer";
+import * as Minio from "minio";
 import { generateAccessToken, extractUUID, verifyJWT, storeAccessUUID } from "./auth.js";
 const router = express.Router();
+
+const upload = multer({
+	dest: "/uploads",
+	limits: { files: 1, fieldSize: 5 * 1024 * 1024 /* 5MB */ },
+	fileFilter: (req, file, cb) => {
+		if (
+			file.originalname.match(/\.(jpg|jpeg|png|gif)$/i) &&
+			file.mimetype.match(/^image\/(jpg|jpeg|png|gif)$/i)
+		) {
+			return cb(null, true);
+		}
+		return cb(new Error("Only image are allowed."), false);
+	},
+});
 
 export default (dbStore, logger) => {
 	router.get("/", async (req, res) => {
@@ -56,6 +72,19 @@ export default (dbStore, logger) => {
 		}
 	});
 
+	router.post("/:id/upload_image", upload.single("image"), async (req, res) => {
+		try {
+			const image = req.file;
+			if (!image) throw { description: "No file provided", statusCode: 400 };
+			//TODO: Verify filetype
+			await uploadImageToMinio(req.params.id, image.path);
+			res.json(200);
+		} catch (error) {
+			logger.error(error);
+			res.status(error.statusCode || 500).json({ error });
+		}
+	});
+
 	router.get("/verify_auth_token", async (req, res) => {
 		try {
 			const jwt = req.headers.authorization;
@@ -89,4 +118,21 @@ const registerUser = async (dbStore, email, username, password) => {
 	const doc = { email, username, password };
 	const result = collection.insertOne(doc);
 	return result;
+};
+
+const uploadImageToMinio = async (id, image) => {
+	const minioClient = new Minio.Client({
+		endPoint: "localhost",
+		port: 4006,
+		useSSL: false,
+		accessKey: "minio",
+		secretKey: "minio123",
+	});
+
+	if (!(await minioClient.bucketExists("images"))) {
+		minioClient.makeBucket("images");
+	}
+
+	const etag = await minioClient.fPutObject("images", `${id}.png`, image);
+	return etag;
 };
