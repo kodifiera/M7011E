@@ -9,6 +9,7 @@ import helmet from "helmet";
 // Custom dependencies
 import Store from "./store.js";
 import Users from "./users.js";
+import Simulator from "./simulator.js";
 
 // Config the .env
 dotenv.config();
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
  * Use API sub-endpoints
  */
 app.use("/users", Users(store, logger));
+app.use("/simulator", Simulator(store, logger));
 
 /**
  * Test to connect to the api endpoint

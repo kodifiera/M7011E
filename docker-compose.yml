@@ -77,3 +77,18 @@ services:
             - 80
         ports:
             - 4005:80
+
+    minio:
+        container_name: minio
+        image: minio/minio
+        restart: unless-stopped
+        volumes:
+            - ./docker-volumes/minio:/data
+        expose:
+            - 9000
+        ports:
+            - 4006:9000
+        environment:
+            MINIO_ACCESS_KEY: minio
+            MINIO_SECRET_KEY: minio123
+        command: server /data

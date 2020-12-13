@@ -1,11 +1,21 @@
 import express from "express";
-import axios from "axios";
+import Service from "./service.js";
+import externalRequests, {
+	getTemp,
+	getWind,
+	getConsumption,
+	getPrice,
+} from "./externalRequests.js";
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 const localhost = process.env.NODE_ENV === "production" ? false : true;
 
-app.listen(port, async () => console.info(`Example app listening at http://localhost:${port}`));
+app.listen(port, async () => {
+	console.info(`Example app listening at http://localhost:${port}`);
+	const service = Service(localhost);
+	service.start(60);
+});
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -25,12 +35,10 @@ app.get("/", async (req, res) => {
 	res.json("ok");
 });
 
-app.get("/db", async (req, res) => {
+app.get("/all", async (req, res) => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4001" : "mongo-api");
-		const response = await axios.get(url);
-		res.status(200);
-		res.send("" + response.data);
+		const response = await externalRequests();
+		res.json(response);
 	} catch (error) {
 		console.error(error);
 	}
@@ -38,10 +46,8 @@ app.get("/db", async (req, res) => {
 
 app.get("/temp", async (req, res) => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4002" : "temperature");
-		const response = await axios.get(url);
-		res.status(200);
-		res.send("" + response.data);
+		const response = await getTemp();
+		res.send("" + response);
 	} catch (error) {
 		console.error(error);
 	}
@@ -49,10 +55,8 @@ app.get("/temp", async (req, res) => {
 
 app.get("/wind", async (req, res) => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4003" : "wind");
-		const response = await axios.get(url);
-		res.status(200);
-		res.send("" + response.data);
+		const response = await getWind();
+		res.send("" + response);
 	} catch (error) {
 		console.error(error);
 	}
@@ -60,10 +64,8 @@ app.get("/wind", async (req, res) => {
 
 app.get("/consumption", async (req, res) => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4004" : "el-consumption");
-		const response = await axios.get(url);
-		res.status(200);
-		res.send("" + response.data);
+		const response = await getConsumption();
+		res.send("" + response);
 	} catch (error) {
 		console.error(error);
 	}
@@ -71,10 +73,8 @@ app.get("/consumption", async (req, res) => {
 
 app.get("/price", async (req, res) => {
 	try {
-		const url = "http://" + (localhost ? "localhost:4005" : "el-price");
-		const response = await axios.get(url);
-		res.status(200);
-		res.json(response.data);
+		const response = await getPrice();
+		res.json(response);
 	} catch (error) {
 		console.error(error);
 	}
