@@ -27,10 +27,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form).subscribe(
       data=> {
         this.authService.setToken(data.access_token);
-        this.authService.saveUser(data);
+        this.authService.saveUser(data.user_id);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.reloadPage();
+        //this.reloadPage();
+        console.log(data);
+
       },
       err=> {
         this.errorMessage = err.error.message;

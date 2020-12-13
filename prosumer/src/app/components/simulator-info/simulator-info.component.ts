@@ -23,6 +23,9 @@ export class SimulatorInfoComponent implements OnInit {
   subscription1: any;
   subscription2: any;
   subscription3: any;
+  sell: string = '0';
+  buy: string = '0';
+
 
   statusText: string = "";
 
@@ -49,6 +52,13 @@ export class SimulatorInfoComponent implements OnInit {
       this.generation = data.avg_generation;
       this.currency = data.price_currency;    
     }, error => console.log(error));
+  }
+
+  sellIsActive() {
+    if(this.generation - this.consumption > 0) {
+      return true;
+    }
+    return false;
   }
 
   ngOnDestroy() {

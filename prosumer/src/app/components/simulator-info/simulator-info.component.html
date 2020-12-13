@@ -9,3 +9,17 @@
     <li class="list-group-item">Current net production: {{this.generation - this.consumption}}</li>
     <hr>
   </ul>
+
+  <h4>Sell or buy ratios:</h4>
+  <hr>
+  <div class = "border border-light">
+    <div class = "container">
+      <p>Choose percentage to sell electricity to market: </p>
+      <input type="range" class = "custom-range" name = "sell" id = "serial" min="0" max="100" value="0" [(ngModel)]="sell" [disabled]="!this.sellIsActive()">
+      <p>{{this.sell}}%</p>
+
+      <p>Choose percentage to buy electricity from market: </p>
+      <input type="range" class = "custom-range" name = "buy" id = "serial" min="0" max="100" value="0"  [(ngModel)]="buy" [disabled]="this.sellIsActive()">
+      <p>{{this.buy}}%</p>
+    </div>
+  </div> 
