@@ -12,14 +12,28 @@
 
   <h4>Sell or buy ratios:</h4>
   <hr>
-  <div class = "border border-light">
-    <div class = "container">
-      <p>Choose percentage to sell electricity to market: </p>
-      <input type="range" class = "custom-range" name = "sell" id = "serial" min="0" max="100" value="0" [(ngModel)]="sell" [disabled]="!this.sellIsActive()">
-      <p>{{this.sell}}%</p>
 
-      <p>Choose percentage to buy electricity from market: </p>
-      <input type="range" class = "custom-range" name = "buy" id = "serial" min="0" max="100" value="0"  [(ngModel)]="buy" [disabled]="this.sellIsActive()">
-      <p>{{this.buy}}%</p>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p>Choose percentage to sell electricity to market: </p>
+        <input type="range" class = "custom-range" name = "sell" id = "serial" min="0" max="100" value="0" [(ngModel)]="sell" [disabled]="!this.sellIsActive()">
+        <p>{{this.sell}}%</p>
+      </div>
+      <div class="col">
+        <p>Battery:</p>
+        <div class="progress" style="height: 50px;">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="min-width: 2em;" [style.width]="(wind/100)*100 + '%'" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>   
+        <p>{{wind}} left of battery</p>
+   
     </div>
-  </div> 
+    </div>
+    <div class = "row justify-content-start">
+      <div class = "col-6">
+        <p>Choose percentage to buy electricity from market: </p>
+        <input type="range" class = "custom-range" name = "buy" id = "serial" min="0" max="100" value="0"  [(ngModel)]="buy" [disabled]="this.sellIsActive()">
+        <p>{{this.buy}}%</p>
+      </div>
+    </div>
+  </div>
