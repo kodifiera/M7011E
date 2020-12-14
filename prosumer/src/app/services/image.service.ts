@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service'; 
 
 const baseUrl = 'http://localhost:4001/';
 
@@ -9,12 +10,14 @@ const baseUrl = 'http://localhost:4001/';
 })
 export class ImageService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   public upload(image: File): Observable<any> {
-    const formData = new FormData();
+    var formData: any = new FormData();
+    let user  = this.auth.getUser();
     formData.append('image', image);
-    return this.http.post(baseUrl+'', formData);
+    console.log(formData)
+    return this.http.post(baseUrl+'users/:'+ user + '/upload_image', formData);
   }
   
 }
