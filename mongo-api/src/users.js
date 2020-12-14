@@ -121,12 +121,13 @@ const registerUser = async (dbStore, email, username, password) => {
 };
 
 const uploadImageToMinio = async (id, image) => {
+	const production = process.env.NODE_ENV === "production" ? true : false;
 	const minioClient = new Minio.Client({
-		endPoint: "localhost",
-		port: 4006,
+		endPoint: production ? "minio" : "localhost",
+		port: production ? 9000 : 4006,
 		useSSL: false,
-		accessKey: "minio",
-		secretKey: "minio123",
+		accessKey: process.env.MINIO_ACCESS_KEY || "minio",
+		secretKey: process.env.MINIO_SECRET_KEY || "minio123",
 	});
 
 	if (!(await minioClient.bucketExists("images"))) {
