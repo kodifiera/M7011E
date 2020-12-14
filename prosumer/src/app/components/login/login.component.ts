@@ -30,9 +30,7 @@ export class LoginComponent implements OnInit {
         this.authService.saveUser(data.user_id);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        //this.reloadPage();
-        console.log(data);
-
+        this.reloadPage();
       },
       err=> {
         this.errorMessage = err.error.message;

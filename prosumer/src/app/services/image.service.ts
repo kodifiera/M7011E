@@ -16,7 +16,6 @@ export class ImageService {
     var formData: any = new FormData();
     let user  = this.auth.getUser();
     formData.append('image', image);
-    console.log(formData)
     return this.http.post(baseUrl+'users/:'+ user + '/upload_image', formData);
   }
   
