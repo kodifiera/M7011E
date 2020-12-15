@@ -25,6 +25,7 @@ export class SimulatorInfoComponent implements OnInit {
   subscription3: any;
   sell: string = '0';
   buy: string = '0';
+  battery: any;
 
 
   statusText: string = "";
@@ -32,6 +33,7 @@ export class SimulatorInfoComponent implements OnInit {
   constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
+    this.battery = new Battery()
     this.subscription1 = timer(0, 5*6*10000).pipe(
     switchMap(()=> this.httpService.getTemperature())
     ).subscribe((data:any)=> {
@@ -61,10 +63,27 @@ export class SimulatorInfoComponent implements OnInit {
     return false;
   }
 
+  batteryUpdate(buy: any) {
+    console.log(buy);
+    let percent = 0.5;
+    let newValue = this.battery.maxValue/1000*(buy/100)
+
+    if(newValue > this.battery.minValue && newValue < this.battery.maxValue) {
+      this.battery.valueNow = this.battery.valueNow - this.battery.valueNow*newValue;
+    }
+
+  }
+
   ngOnDestroy() {
     console.log("destroy")
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();    
     this.subscription3.unsubscribe();    
   }
+}
+
+class Battery {
+  maxValue = 1000;
+  minValue = 0;
+  valueNow = this.maxValue;
 }
