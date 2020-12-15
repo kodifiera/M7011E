@@ -1,33 +1,21 @@
-const express = require("express");
-const axios = require("axios");
-const app = express();
+import express from "express";
+import { performRequestFunction } from "./index.js";
+import { getTemp } from "./temp.js";
+const router = express.Router();
 
-const PORT = process.env.PORT || 8080;
-const localhost = process.env.NODE_ENV === "production" ? false : true;
-const url = "http://" + (localhost ? "localhost:4000" : "simulator-api");
-app.listen(PORT, () => console.info(`Server started on port ${PORT}`));
-
-app.get("/", async (req, res) => {
-	const consum = await degreeConsumption();
-	res.send("" + consum);
+router.use("/", async (req, res) => {
+	performRequestFunction(res, async () => {
+		return await getElConsumption();
+	});
 });
 
-const getTemp = async () => {
-	try {
-		const res = await axios.get(url + "/temp");
-		if (res.status == 200) {
-			return res.data;
-		} else {
-			res.status(500);
-			return "Bad request: " + res.status;
-		}
-	} catch (err) {
-		console.error(err);
-	}
+export const getElConsumption = async () => {
+	const temp = await getTemp();
+	const consumption = await degreeConsumption(temp, new Date());
+	return { el_consumption: consumption, unit: "kW" };
 };
 
-const heatingConsumption = () => {
-	var date = new Date();
+const heatingConsumption = (date) => {
 	var hour = date.getHours();
 	var consum = 0;
 	//normal distribution of 27kWh per day, distributed in kWh per hour
@@ -52,16 +40,16 @@ const heatingConsumption = () => {
 	return consum;
 };
 
-const degreeConsumption = async () => {
-	const temp = await getTemp();
-
+const degreeConsumption = async (temp, date) => {
 	const wattPerDegree = 0.085; // 15kWh / 365 / 24 = 1.7, 5 percent per delta degree => 0.05*1.7 = 0.085
 	const zeroConsumtion = 25;
 	var consumtion = 0;
 	if (temp < zeroConsumtion) {
 		consumtion = wattPerDegree * (zeroConsumtion - temp);
 	}
-	const heatingCon = heatingConsumption();
+	const heatingCon = heatingConsumption(date);
 	consumtion += heatingCon;
 	return consumtion;
 };
+
+export default router;

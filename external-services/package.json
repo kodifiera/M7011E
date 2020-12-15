@@ -1,8 +1,8 @@
 {
-	"name": "api",
-	"version": "0.1.0",
+	"name": "external-services",
+	"version": "1.0.0",
 	"description": "The API for communicating with the M7011E services.",
-	"repository": "https://github.com/kodifiera/M7011E/tree/main/api",
+	"repository": "https://github.com/kodifiera/M7011E/tree/main/external-services",
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
@@ -13,7 +13,12 @@
 	"license": "MIT",
 	"dependencies": {
 		"axios": "^0.21.0",
-		"express": "^4.17.1"
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"helmet": "^4.2.0",
+		"morgan": "^1.10.0",
+		"node-cache": "^5.1.2"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.6"
