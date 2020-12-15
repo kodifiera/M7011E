@@ -32,7 +32,7 @@ export class SimulatorInfoComponent implements OnInit {
   subscription2: any;
   subscription3: any;
   sell: string = '0';
-  buy: string = '0';
+  buy: any = 0;
   battery: any;
 
 
@@ -60,7 +60,8 @@ export class SimulatorInfoComponent implements OnInit {
       this.windUnit = data.avg_wind.unit;
 
     }, error => console.log(error));
-
+    this.subscription2 = timer(0, 5000).subscribe(geh => this.batteryUpdate()
+    )
   }
 
   sellIsActive() {
@@ -70,27 +71,26 @@ export class SimulatorInfoComponent implements OnInit {
     return false;
   }
 
-  batteryUpdate(buy: any) {
-    console.log(buy);
-    let percent = 0.5;
-    let newValue = this.battery.maxValue/1000*(buy/100)
+  batteryUpdate() {
+    let hoursWithBattery = ((6*0.4) / (this.consumption));        //how many hours battery will live
+    this.battery.batteryCon = 400 / hoursWithBattery / 720        //ampHours / hoursToLive transformed to every 5 seconds
+    let newValue = this.battery.batteryCon * ((100-this.buy)/100);  //multiplicate with percentage
 
-    if(newValue > this.battery.minValue && newValue < this.battery.maxValue) {
-      this.battery.valueNow = this.battery.valueNow - this.battery.valueNow*newValue;
+    if(this.battery.valueNow > this.battery.minValue) {
+      this.battery.valueNow = this.battery.valueNow - newValue;
     }
-
   }
 
   ngOnDestroy() {
     console.log("destroy")
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();    
-    this.subscription3.unsubscribe();    
   }
 }
 
 class Battery {
-  maxValue = 1000;
+  maxValue = 400; //6*400/1000
   minValue = 0;
   valueNow = this.maxValue;
+  batteryCon = 0;
 }
