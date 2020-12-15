@@ -15,11 +15,19 @@ import { switchMap} from 'rxjs/operators';
 export class SimulatorInfoComponent implements OnInit {
 
   temperature: any;
+  
   price: any;
-  consumption: any;
+  currency: string = "";
+
+  consumption: any = "";
+  conUnit: string = "";
+
   generation: any;
-  currency: any;
+  genUnit: string = "";
+
   wind: any;
+  windUnit: string = "";
+
   subscription1: any;
   subscription2: any;
   subscription3: any;
@@ -34,26 +42,25 @@ export class SimulatorInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.battery = new Battery()
-    this.subscription1 = timer(0, 5*6*10000).pipe(
-    switchMap(()=> this.httpService.getTemperature())
+    this.subscription1 = timer(0, 5000).pipe(
+    switchMap(()=> this.httpService.getSimulatorInfo())
     ).subscribe((data:any)=> {
-      this.temperature = data;
+      this.temperature = data.avg_temp.temp;
+
+      this.price = data.price.price;
+      this.currency = data.price.price_currency; 
+
+      this.consumption = data.avg_consumption.el_consumption;
+      this.conUnit = data.avg_consumption.unit;
+
+      this.generation = data.avg_generation.el_generation;
+      this.genUnit = data.avg_generation.unit;
+
+      this.wind = data.avg_wind.wind;
+      this.windUnit = data.avg_wind.unit;
+
     }, error => console.log(error));
 
-    this.subscription2 = timer(0, 10000).pipe(
-      switchMap(()=> this.httpService.getWind())
-      ).subscribe((data:any)=> {
-        this.wind = data;
-      }, error => console.log(error));
-
-    this.subscription3 = timer(0, 10000).pipe(
-    switchMap(()=> this.httpService.getPrice())
-    ).subscribe((data:any)=> {
-      this.price = data.price;
-      this.consumption = data.avg_consumption;
-      this.generation = data.avg_generation;
-      this.currency = data.price_currency;    
-    }, error => console.log(error));
   }
 
   sellIsActive() {

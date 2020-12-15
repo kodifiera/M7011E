@@ -9,17 +9,8 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  //get temperature
-  getTemperature() {
-    return this.http.get(`${this.url}/temp` )
-  }
-
-  //get price
-  getPrice() {
-    return this.http.get(`${this.url}/price` )
-  }
-
-  getWind() {
-    return this.http.get(`${this.url}/wind` )
+  //get all simulator info
+  getSimulatorInfo() {
+    return this.http.get(`${this.url}/all` )
   }
 }
