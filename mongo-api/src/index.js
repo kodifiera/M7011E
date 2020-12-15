@@ -7,9 +7,9 @@ import pino from "pino";
 import cors from "cors";
 import helmet from "helmet";
 // Custom dependencies
-import Store from "./store.js";
-import Users from "./users.js";
-import Simulator from "./simulator.js";
+import Store from "./helpers/store.js";
+import Users from "./routes/users.js";
+import Simulator from "./routes/simulator.js";
 
 // Config the .env
 dotenv.config();
@@ -46,6 +46,7 @@ app.use((req, res, next) => {
 /**
  * Use API sub-endpoints
  */
+app.use("/uploads", express.static("/uploads"));
 app.use("/users", Users(store, logger));
 app.use("/simulator", Simulator(store, logger));
 
@@ -73,3 +74,21 @@ app.listen(port, async () => {
 		logger.error(error);
 	}
 });
+
+/**
+ * Perform a request that automatically catches and returns exceptions as well as
+ * optionally returns successful request.
+ * @param {*} res Express Res object.
+ * @param {*} fun The request function to perform.
+ * @param {boolean} Automatically send sucessful returned result as JSON  - Default: true
+ */
+export const performRequestFunction = async (res, fun, sendJsonAuto = true) => {
+	try {
+		const result = await fun();
+		if (!sendJsonAuto) return result;
+		res.json(result);
+	} catch (error) {
+		logger.error(error);
+		res.status(error.statusCode || 500).json({ error });
+	}
+};

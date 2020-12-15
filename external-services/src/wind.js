@@ -1,5 +1,19 @@
+import express from "express";
 import NodeCache from "node-cache";
+import { performRequestFunction } from "./index.js";
+const router = express.Router();
 const cache = new NodeCache();
+
+router.use("/", async (_req, res) => {
+	performRequestFunction(res, async () => {
+		return await getWind();
+	});
+});
+
+export const getWind = async () => {
+	const wind = await fetchWind();
+	return { wind, unit: "meter/sec" };
+};
 
 /**
  * Return a gaussian distribution function with mean value and a standard deviation.
@@ -29,7 +43,7 @@ const gaussian = (mean, stddev) => {
  * Get the current wind speed from a gaussian (normal) distribution which
  * in return is generated from a gaussian distribution.
  */
-export default () => {
+const fetchWind = async () => {
 	// See if there is a current cached wind speed (saved for 10 sec)
 	let current = cache.get("current");
 	if (current) {
@@ -46,5 +60,8 @@ export default () => {
 	const dayDist = gaussian(dayAvg, dayAvg / 5);
 	current = dayDist();
 	cache.set("current", current, 10 /*sec*/);
-	return Math.abs(current);
+	const wind = Math.abs(current);
+	return wind;
 };
+
+export default router;

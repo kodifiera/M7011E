@@ -1,24 +1,22 @@
-version: "3.8"
+version: "3.9"
 
 services:
     mongo:
         container_name: mongo
         image: mongo
         restart: unless-stopped
-        volumes:
-            - ./docker-volumes/mongo:/data/db
-        expose:
-            - 27017
         ports:
             - 27017:27017
+        volumes:
+            - ./docker-volumes/mongo:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: username
             MONGO_INITDB_ROOT_PASSWORD: password
 
-    simulator-api:
-        container_name: simulator-api
-        image: simulator-api
-        build: simulator/simulator-api/.
+    external-services:
+        container_name: external-services
+        image: external-services
+        build: external-services/.
         restart: unless-stopped
         ports:
             - 4000:80
@@ -28,66 +26,27 @@ services:
         image: mongo-api
         build: mongo-api/.
         restart: unless-stopped
-        expose:
-            - 80
         ports:
             - 4001:80
         depends_on:
             - mongo
+            - minio
+        volumes:
+            - ./docker-volumes/db-api/:/uploads
         environment:
             CONFIG_MONGODB_ROOT_USERNAME: username
             CONFIG_MONGODB_ROOT_PASSWORD: password
-
-    temperature:
-        container_name: temperature
-        image: temperature
-        build: simulator/temperature/.
-        restart: unless-stopped
-        expose:
-            - 80
-        ports:
-            - 4002:80
-
-    wind:
-        container_name: wind
-        image: wind
-        build: simulator/wind/.
-        restart: unless-stopped
-        expose:
-            - 80
-        ports:
-            - 4003:80
-
-    el-consumption:
-        container_name: el-consumption
-        image: el-consumption
-        build: simulator/el-consumption/.
-        restart: unless-stopped
-        expose:
-            - 80
-        ports:
-            - 4004:80
-
-    el-price:
-        container_name: el-price
-        image: el-price
-        build: simulator/el-price/.
-        restart: unless-stopped
-        expose:
-            - 80
-        ports:
-            - 4005:80
+            MINIO_ACCESS_KEY: minio
+            MINIO_SECRET_KEY: minio123
 
     minio:
         container_name: minio
         image: minio/minio
         restart: unless-stopped
+        ports:
+            - 9000:9000
         volumes:
             - ./docker-volumes/minio:/data
-        expose:
-            - 9000
-        ports:
-            - 4006:9000
         environment:
             MINIO_ACCESS_KEY: minio
             MINIO_SECRET_KEY: minio123
