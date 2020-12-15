@@ -19,7 +19,7 @@ export class SimulatorInfoComponent implements OnInit {
   price: any;
   currency: string = "";
 
-  consumption: any = "";
+  consumption: any;
   conUnit: string = "";
 
   generation: any;
@@ -30,11 +30,9 @@ export class SimulatorInfoComponent implements OnInit {
 
   subscription1: any;
   subscription2: any;
-  subscription3: any;
-  sell: string = '0';
-  buy: any = 0;
+  sell: number = 0;
+  buy: number = 0;
   battery: any;
-
 
   statusText: string = "";
 
@@ -56,7 +54,7 @@ export class SimulatorInfoComponent implements OnInit {
       this.generation = data.avg_generation.el_generation;
       this.genUnit = data.avg_generation.unit;
 
-      this.wind = data.avg_wind.wind;
+      this.wind = parseFloat(data.avg_wind.wind).toFixed(3);
       this.windUnit = data.avg_wind.unit;
 
     }, error => console.log(error));
@@ -71,13 +69,37 @@ export class SimulatorInfoComponent implements OnInit {
     return false;
   }
 
-  batteryUpdate() {
-    let hoursWithBattery = ((6*0.4) / (this.consumption));        //how many hours battery will live
-    this.battery.batteryCon = 400 / hoursWithBattery / 720        //ampHours / hoursToLive transformed to every 5 seconds
-    let newValue = this.battery.batteryCon * ((100-this.buy)/100);  //multiplicate with percentage
+  batteryUpdate = () => {
+    let sellActive = this.sellIsActive();
+    if (this.battery.valueNow == this.battery.maxValue) {
+      this.sell = 100;
+    }
+    if(this.battery.valueNow == this.battery.minValue) {
+      this.buy = 100;
+    }
+    if(this.battery.valueNow == null) {
+      this.battery.valueNow = 400;
+    }
+    if (sellActive) {
+      let ampPer5sec = ((this.generation * 1000) / 720) / 6;    //  ((kwh / hour -> 5 seconds) / volt) gives ampere per 5 seconds
+      let newVal = ampPer5sec* ((100-this.sell)/100);
 
-    if(this.battery.valueNow > this.battery.minValue) {
-      this.battery.valueNow = this.battery.valueNow - newValue;
+      if(((parseFloat(this.battery.valueNow)) + newVal) < this.battery.maxValue) {
+        this.battery.valueNow = (parseFloat(this.battery.valueNow) + newVal).toFixed(3);
+      } else {
+        this.battery.valueNow = this.battery.maxValue;
+      }
+    }
+    else {
+      let hoursWithBattery = ((6*0.4) / ((this.consumption)));        //how many hours battery will live
+      let amp5sec = 400 / hoursWithBattery /720        //ampHours / hoursToLive transformed to every 5 seconds
+      let newValue = amp5sec * ((100-this.buy)/100);  //multiplicate with percentage
+
+      if(parseFloat(this.battery.valueNow) - newValue > (this.battery.minValue)) {
+        this.battery.valueNow = (parseFloat(this.battery.valueNow) - newValue).toFixed(3);
+      } else {
+        this.battery.valueNow = this.battery.min;
+      }
     }
   }
 
@@ -89,8 +111,8 @@ export class SimulatorInfoComponent implements OnInit {
 }
 
 class Battery {
-  maxValue = 400; //6*400/1000
-  minValue = 0;
-  valueNow = this.maxValue;
-  batteryCon = 0;
+  maxValue: any = 400; //6*400/1000
+  minValue: any = 0;
+  valueNow: any = this.maxValue;
+
 }
