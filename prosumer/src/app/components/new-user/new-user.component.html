@@ -6,12 +6,19 @@
     #f="ngForm"
     novalidate>
     <div class="form-group">
-        <label for="uname">Select a username:</label>
-        <input type="email" class="form-control" name="email"
-        [(ngModel)]="form.email"
-        required
-        email
-        #email="ngModel" required>
+        <label for="email">Select a username:</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          [email] = "true"
+          required
+          #email="ngModel"
+        />
+    </div>
+    <div class="alert-danger" *ngIf="f.submitted && email.invalid && (email.dirty || email.touched)">
+          Email must be a valid email address
     </div>
     <div class="form-group">
         <label for="pwd">Select a password:</label>
@@ -19,15 +26,10 @@
         [(ngModel)]="form.password"
         required
         minlength="6"
-        #password="ngModel" required>
+        #password="ngModel">
     </div>
-    <div class="form-group form-check">
-        <label class="form-check-label">          
-        <input class="form-check-input" type="checkbox" name="remember" required> I agree on blabla.
-        <div class="valid-feedback">Najs</div>
-            <div class="invalid-feedback">Check this checkbox to continue.</div>
-        </label>
-    </div>
+    <div class="alert-danger" *ngIf="f.submitted && password.invalid && (password.dirty || password.touched)">Password is required</div>
+    
     <button type="submit" class="btn btn-primary">Register account</button>
     <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
         Signup failed!<br />{{ errorMessage }}
