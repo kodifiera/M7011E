@@ -6,13 +6,18 @@
     #f="ngForm"
     novalidate>
     <div class="form-group">
-        <label for="email">Username:</label>
-        <input type="text" class="form-control"name="email"
-            [(ngModel)]="form.email"
-            required
-            #username="ngModel" >  
-        <div class="alert alert-danger" role="alert" *ngIf="f.submitted && username.invalid">
-            Username is required!
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          [email] = "true"
+          required
+          #email="ngModel"
+        /> 
+        <div class="alert alert-danger" role="alert" *ngIf="f.submitted && email.invalid && (email.dirty || email.touched)">
+            Email is required!
         </div>      
     </div>
 
@@ -27,6 +32,7 @@
             class="alert alert-danger"
             role="alert"
             *ngIf="f.submitted && password.invalid">
+            Wrong password
         </div>
     </div>
     <button type="submit" class="btn btn-primary">Log in</button>

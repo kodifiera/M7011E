@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../services/auth.service';
-import { CommonModule } from '@angular/common';  
-import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-new-user',
@@ -9,10 +7,10 @@ import { BrowserModule } from '@angular/platform-browser';
   styleUrls: ['./new-user.component.css']
 })
 export class NewUserComponent implements OnInit {
-  form: any = {};
   isSuccessfull = false;
   isSignUpFailed = false;
   errorMessage = '';
+  form: any = {}
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {

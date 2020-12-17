@@ -16,7 +16,12 @@ export class ImageService {
     var formData: any = new FormData();
     let user  = this.auth.getUser();
     formData.append('image', image);
-    return this.http.post(baseUrl+'users/:'+ user + '/upload_image', formData);
+    return this.http.post(`${baseUrl}users/${user}/upload_image`, formData);
+  }
+
+  public getImage(): Observable<any> {
+    let user = this.auth.getUser();
+    return this.http.get(`${baseUrl}users/${user}/get_image`, {responseType: 'blob' });
   }
   
 }
