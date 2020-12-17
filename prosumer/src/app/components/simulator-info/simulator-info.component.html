@@ -23,9 +23,10 @@
       <div class="col">
         <p>Battery:</p>
         <div class="progress" style="height: 50px;">
-        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(this.battery.valueNow * 500)/400 + '%'" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(this.battery.valueNow * 500)/2.4 + '%'" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>   
-        <p>{{this.battery.valueNow}} amp-hours left of battery</p>
+        <p *ngIf="battery.valueNow; else max ">{{this.battery.valueNow}} kwH left of battery</p>
+        <ng-template #max><p> 2.4 kwH left of battery </p></ng-template>
    
     </div>
     </div>
