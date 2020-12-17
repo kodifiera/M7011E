@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError } from 'rxjs/operators';
 import { ImageService } from './../../services/image.service';
+
 
 @Component({
   selector: 'app-image-upload',
@@ -26,6 +28,7 @@ export class ImageUploadComponent implements OnInit {
           this.onSuccess();
         },
         (err) => {
+          console.log("h"),
           this.onError();
         })
     })
@@ -65,11 +68,9 @@ export class ImageUploadComponent implements OnInit {
     this.isImageLoading = false;
   }, error => {
     this.isImageLoading = false;
-    if(error.status===500){
-      console.log("nja");
-    }
-  });
-}
+    catchError(error);
+    });
+  }
 }
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
